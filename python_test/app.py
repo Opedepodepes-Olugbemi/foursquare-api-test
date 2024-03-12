@@ -16,12 +16,14 @@ def index():
 def process_data():
     query = request.form.get('query')
     print(f"Received data: {query}")
+    query2 = request.form.get('query2')
+    print(f"Received data: {query2}")
 
     # Make the Foursquare API request
     url = "https://api.foursquare.com/v3/places/search"
     params = {
         "query": query,
-        "near": "Lagos, NG",
+        "near": query2,
         "limit": 5,
         "open_now": "true",
         "sort": "DISTANCE",
