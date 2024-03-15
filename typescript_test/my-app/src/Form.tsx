@@ -1,38 +1,54 @@
 // src/Form.tsx
 import React from "react";
-import { useForm } from "./hooks/useForm";
+// import { useForm } from "./hooks/useForm";
 
-const ContactForm: React.FC = () => {
-    const handleSubmit = async () => {
-        // Handle form submission (e.g., send data to an API)
-        console.log("Form submitted!");
+function ContactForm() {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        // Extract form data
+        const formData = new FormData(event.currentTarget);
+        const data = {
+            query1: formData.get("query1"),
+            query2: formData.get("query2"),
+            // Add more fields if needed
+        };
+
+        // Send POST request (replace with your API endpoint)
+        async function placeSearch() {
+            try {
+                const searchParams = new URLSearchParams({
+                  query: 'query1',
+                  near: 'query2',
+                  open_now: 'true',
+                  sort: 'DISTANCE'
+                });
+                const results = await fetch(
+                  `https://api.foursquare.com/v3/places/search?${searchParams}`,
+                  {
+                    method: 'GET',
+                    headers: {
+                      Accept: 'application/json',
+                      Authorization: 'API KEY HERE',
+                    }
+                  }
+                );
+                const data = await results.json();
+                return data;
+            } catch (err) {
+                console.error(err);
+            }
+        }
     };
 
-    const { values, onChange, onSubmit } = useForm(handleSubmit, {
-        // Initialize form fields (e.g., email, password)
-        query1: "",
-        query2: "",
-    });
-
     return (
-        <form onSubmit={onSubmit}>
-            <input
-                type="text"
-                name="query1"
-                placeholder="Email"
-                value={values.query1}
-                onChange={onChange}
-            />
-            <input
-                type="password" {/* Use type="password" for sensitive data */}
-                name="query2"
-                placeholder="Password"
-                value={values.query2}
-                onChange={onChange}
-            />
+        <form action="/process" method="post" onSubmit={handleSubmit}>
+            <input type="text" name="query1" id="query1" />
+            <br />
+            <input type="text" name="query2" id="query2" />
             <button type="submit">Submit</button>
         </form>
     );
-};
+}
 
 export default ContactForm;
