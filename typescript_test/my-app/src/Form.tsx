@@ -29,7 +29,7 @@ function ContactForm() {
                     method: 'GET',
                     headers: {
                       Accept: 'application/json',
-                      Authorization: 'API KEY HERE',
+                      Authorization: 'fsq3MWgFcBJamwcit7YSOP11g4P/fBwxZG+XjE+CLcLDLkI=',
                     }
                   }
                 );
@@ -43,6 +43,7 @@ function ContactForm() {
 
     return (
         <form action="/process" method="post" onSubmit={handleSubmit}>
+
             <input type="text" name="query1" id="query1" />
             <br />
             <input type="text" name="query2" id="query2" />

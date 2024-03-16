@@ -30,7 +30,7 @@ def process_data():
     }
     headers = {
         "Accept": "application/json",
-        "Authorization": "API KEY HERE",
+        "Authorization": "fsq3MWgFcBJamwcit7YSOP11g4P/fBwxZG+XjE+CLcLDLkI=",
     }
     response = requests.request("GET", url, params=params, headers=headers)
 
