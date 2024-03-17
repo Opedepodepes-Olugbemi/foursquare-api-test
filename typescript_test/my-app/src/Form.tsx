@@ -1,55 +1,56 @@
-// src/Form.tsx
-import React from "react";
-// import { useForm } from "./hooks/useForm";
+import React, { useState } from 'react';
+import { useForm } from './hooks/useForm';
+import { placeSearch } from './hooks/placeSearch'; // (explained later)
 
 function ContactForm() {
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
+  const [searchResults, setSearchResults] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
-        // Extract form data
-        const formData = new FormData(event.currentTarget);
-        const data = {
-            query1: formData.get("query1"),
-            query2: formData.get("query2"),
-            // Add more fields if needed
-        };
+//   const [isLoading, setIsLoading] = useState(false);
 
-        // Send POST request (replace with your API endpoint)
-        async function placeSearch() {
-            try {
-                const searchParams = new URLSearchParams({
-                  query: 'query1',
-                  near: 'query2',
-                  open_now: 'true',
-                  sort: 'DISTANCE'
-                });
-                const results = await fetch(
-                  `https://api.foursquare.com/v3/places/search?${searchParams}`,
-                  {
-                    method: 'GET',
-                    headers: {
-                      Accept: 'application/json',
-                      Authorization: 'fsq3MWgFcBJamwcit7YSOP11g4P/fBwxZG+XjE+CLcLDLkI=',
-                    }
-                  }
-                );
-                const data = await results.json();
-                return data;
-            } catch (err) {
-                console.error(err);
-            }
-        }
+   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    console.log('query1:', values.query1);
+    console.log('query2:', values.query2);
+
+    try {
+        // setIsLoading(true);
+        const results = await placeSearch(values.query1, values.query2);
+        setSearchResults(results);
+        setErrorMessage(null);
+    }   catch (error) {
+        console.error(error);
+        setErrorMessage(null); // Display error message
+    }
     };
 
-    return (
-        <form action="/process" method="post" onSubmit={handleSubmit}>
+  // Implement placeSearch function (explained later)
+  
 
-            <input type="text" name="query1" id="query1" />
-            <br />
-            <input type="text" name="query2" id="query2" />
-            <button type="submit">Submit</button>
-        </form>
-    );
+  const { values, onChange, onSubmit } = useForm(handleSubmit, {
+    query1: '',
+    query2: '',
+  });
+
+  return (
+    <div>
+      <form onSubmit={onSubmit}>
+        <input type="text" name="query1" id="query1" value={values.query1} onChange={onChange} placeholder="Search Term" />
+        <br />
+        <input type="text" name="query2" id="query2" value={values.query2} onChange={onChange} placeholder="Location (Optional)" />
+        <button type="submit">Search</button>
+      </form>
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
+      {searchResults && (
+        <div>
+          <h2>Search Results:</h2>
+          {/* Display search results (explained later) */}
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default ContactForm;
+

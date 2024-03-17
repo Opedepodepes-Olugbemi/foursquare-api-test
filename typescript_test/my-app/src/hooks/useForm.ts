@@ -1,10 +1,8 @@
-import { useState } from "react";
+import { useState } from 'react';
 
-// Define a generic type for form values
 type FormValues = {
   query1: string;
   query2: string;
-  // Add more fields if needed
 };
 
 export const useForm = (callback: () => void, initialState: FormValues) => {
@@ -16,7 +14,6 @@ export const useForm = (callback: () => void, initialState: FormValues) => {
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // You can add validation logic here before calling callback
     await callback();
   };
 
