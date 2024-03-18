@@ -1,13 +1,11 @@
-import React from "react";
-import ContactForm from "./Form";
+import React from 'react';
+import FoursquarePlaces from './FoursquarePlaces';
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <h1>Contact Us</h1>
-      <ContactForm/>
+      <FoursquarePlaces/>
     </div>
-    
   );
 };
 
